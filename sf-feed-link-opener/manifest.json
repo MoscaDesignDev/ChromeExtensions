@@ -1,0 +1,16 @@
+{
+  "manifest_version": 3,
+  "name": "SF Feed Link Opener",
+  "version": "1.0",
+  "description": "Crawls all tabs in current window for SF feed links and opens them in a new window",
+  "permissions": ["tabs", "scripting"],
+  "host_permissions": ["https://moscadesign.com/*"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icon16.png",
+      "48": "icon48.png",
+      "128": "icon128.png"
+    }
+  }
+}

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      width: 280px;
+      background: #0f0f13;
+      color: #e8e8f0;
+      font-family: 'Courier New', monospace;
+      padding: 20px;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid #2a2a3a;
+    }
+
+    .logo {
+      width: 28px;
+      height: 28px;
+      background: linear-gradient(135deg, #007a7a, #00cccc);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: bold;
+      color: white;
+      flex-shrink: 0;
+      letter-spacing: -0.5px;
+    }
+
+    .title {
+      font-size: 11px;
+      font-weight: bold;
+      color: #00cccc;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .subtitle {
+      font-size: 9px;
+      color: #555570;
+      letter-spacing: 0.05em;
+      margin-top: 2px;
+    }
+
+    .status-bar {
+      background: #16161f;
+      border: 1px solid #2a2a3a;
+      border-radius: 6px;
+      padding: 10px 12px;
+      margin-bottom: 14px;
+      font-size: 10px;
+      color: #8888aa;
+      min-height: 38px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #555570;
+      flex-shrink: 0;
+      transition: background 0.3s;
+    }
+
+    .status-dot.ready   { background: #00cc66; box-shadow: 0 0 6px #00cc66; }
+    .status-dot.running { background: #ffaa00; box-shadow: 0 0 6px #ffaa00; animation: pulse 0.8s infinite; }
+    .status-dot.done    { background: #00cccc; box-shadow: 0 0 6px #00cccc; }
+    .status-dot.error   { background: #ff4455; box-shadow: 0 0 6px #ff4455; }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    .progress-wrap {
+      margin-bottom: 14px;
+      display: none;
+    }
+
+    .progress-label {
+      font-size: 9px;
+      color: #555570;
+      margin-bottom: 5px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .progress-bar {
+      height: 3px;
+      background: #2a2a3a;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #007a7a, #00cccc);
+      border-radius: 2px;
+      width: 0%;
+      transition: width 0.4s ease;
+    }
+
+    .tab-list {
+      max-height: 120px;
+      overflow-y: auto;
+      margin-bottom: 14px;
+      display: none;
+      scrollbar-width: thin;
+      scrollbar-color: #2a2a3a transparent;
+    }
+
+    .tab-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 8px;
+      border-radius: 4px;
+      font-size: 9px;
+      color: #8888aa;
+      margin-bottom: 2px;
+      background: #16161f;
+      border: 1px solid #1e1e2a;
+    }
+
+    .tab-item.success { color: #00cc66; border-color: #00cc6622; background: #00cc6608; }
+    .tab-item.running { color: #ffaa00; border-color: #ffaa0022; background: #ffaa0008; }
+    .tab-item.error   { color: #ff4455; border-color: #ff445522; background: #ff445508; }
+
+    .tab-icon { font-size: 10px; flex-shrink: 0; }
+    .tab-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+    .btn {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 6px;
+      font-family: 'Courier New', monospace;
+      font-size: 10px;
+      font-weight: bold;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #007a7a, #00cccc);
+      color: white;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px #00cccc33;
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .delay-setting {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      font-size: 9px;
+      color: #555570;
+    }
+
+    .delay-setting input {
+      width: 50px;
+      background: #16161f;
+      border: 1px solid #2a2a3a;
+      border-radius: 4px;
+      color: #e8e8f0;
+      padding: 3px 6px;
+      font-family: 'Courier New', monospace;
+      font-size: 9px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="logo">P2</div>
+    <div>
+      <div class="title">Product2 Sync</div>
+      <div class="subtitle">WooCommerce → Salesforce Product2</div>
+    </div>
+  </div>
+
+  <div class="status-bar">
+    <div class="status-dot" id="statusDot"></div>
+    <span id="statusText">Click Run to scan open tabs</span>
+  </div>
+
+  <div class="delay-setting">
+    <span>Delay between tabs (ms)</span>
+    <input type="number" id="delayInput" value="1500" min="500" max="10000" step="500">
+  </div>
+
+  <div class="progress-wrap" id="progressWrap">
+    <div class="progress-label">
+      <span>Progress</span>
+      <span id="progressLabel">0 / 0</span>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+  </div>
+
+  <div class="tab-list" id="tabList"></div>
+
+  <button class="btn btn-primary" id="runBtn">▶ Run Product2 Sync</button>
+
+  <script src="popup.js"></script>
+</body>
+</html>

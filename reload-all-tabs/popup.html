@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      width: 260px;
+      background: #0f0f13;
+      color: #e8e8f0;
+      font-family: 'Courier New', monospace;
+      padding: 20px;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid #2a2a3a;
+    }
+
+    .logo {
+      width: 28px;
+      height: 28px;
+      background: linear-gradient(135deg, #444466, #8888cc);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      color: white;
+      flex-shrink: 0;
+    }
+
+    .title {
+      font-size: 11px;
+      font-weight: bold;
+      color: #8888cc;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .subtitle {
+      font-size: 9px;
+      color: #555570;
+      letter-spacing: 0.05em;
+      margin-top: 2px;
+    }
+
+    .shortcut-box {
+      background: #16161f;
+      border: 1px solid #2a2a3a;
+      border-radius: 6px;
+      padding: 12px;
+      margin-bottom: 14px;
+      text-align: center;
+    }
+
+    .shortcut-label {
+      font-size: 9px;
+      color: #555570;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .shortcut-keys {
+      font-size: 13px;
+      color: #8888cc;
+      letter-spacing: 0.05em;
+      font-weight: bold;
+    }
+
+    .shortcut-keys span {
+      display: inline-block;
+      background: #2a2a3a;
+      border: 1px solid #3a3a4a;
+      border-radius: 4px;
+      padding: 3px 7px;
+      margin: 0 2px;
+      font-size: 10px;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 6px;
+      font-family: 'Courier New', monospace;
+      font-size: 10px;
+      font-weight: bold;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-bottom: 8px;
+    }
+
+    .btn-reload {
+      background: linear-gradient(135deg, #444466, #8888cc);
+      color: white;
+    }
+
+    .btn-reload:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px #8888cc33;
+    }
+
+    .btn-shortcut {
+      background: #1e1e2a;
+      color: #555570;
+      border: 1px solid #2a2a3a;
+      font-size: 9px;
+    }
+
+    .btn-shortcut:hover {
+      background: #2a2a3a;
+      color: #8888cc;
+    }
+
+    .note {
+      font-size: 8px;
+      color: #444455;
+      text-align: center;
+      margin-top: 4px;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="logo">⟳</div>
+    <div>
+      <div class="title">Reload All Tabs</div>
+      <div class="subtitle">Reload every tab in this window</div>
+    </div>
+  </div>
+
+  <div class="shortcut-box">
+    <div class="shortcut-label">Current Shortcut</div>
+    <div class="shortcut-keys" id="shortcutDisplay">
+      <span>Ctrl</span>+<span>Shift</span>+<span>R</span>
+    </div>
+  </div>
+
+  <button class="btn btn-reload" id="reloadBtn">⟳ Reload All Tabs Now</button>
+  <button class="btn btn-shortcut" id="changeBtn">✎ Change Keyboard Shortcut</button>
+
+  <div class="note">Shortcut changes are managed by Chrome at<br>chrome://extensions/shortcuts</div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

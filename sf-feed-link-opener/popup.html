@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      width: 290px;
+      background: #0f1117;
+      color: #e8e8f0;
+      font-family: 'Courier New', monospace;
+      padding: 20px;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid #2a2a3a;
+    }
+
+    .logo {
+      width: 28px;
+      height: 28px;
+      background: linear-gradient(135deg, #7b2fff, #bb44ff);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: bold;
+      color: white;
+      flex-shrink: 0;
+    }
+
+    .title {
+      font-size: 11px;
+      font-weight: bold;
+      color: #bb44ff;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .subtitle {
+      font-size: 9px;
+      color: #555570;
+      letter-spacing: 0.05em;
+      margin-top: 2px;
+    }
+
+    .status-bar {
+      background: #16161f;
+      border: 1px solid #2a2a3a;
+      border-radius: 6px;
+      padding: 10px 12px;
+      margin-bottom: 14px;
+      font-size: 10px;
+      color: #8888aa;
+      min-height: 38px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #444;
+      flex-shrink: 0;
+      transition: background 0.3s;
+    }
+
+    .status-dot.scanning { background: #ffaa00; box-shadow: 0 0 6px #ffaa00; animation: pulse 0.8s infinite; }
+    .status-dot.ready    { background: #00cc66; box-shadow: 0 0 6px #00cc66; }
+    .status-dot.none     { background: #ffaa00; box-shadow: 0 0 6px #ffaa00; }
+    .status-dot.error    { background: #ff4455; box-shadow: 0 0 6px #ff4455; }
+    .status-dot.done     { background: #bb44ff; box-shadow: 0 0 6px #bb44ff; }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    .count-badge {
+      display: none;
+      background: #bb44ff11;
+      border: 1px solid #bb44ff33;
+      border-radius: 4px;
+      padding: 6px 10px;
+      font-size: 10px;
+      color: #bb44ff;
+      margin-bottom: 14px;
+      text-align: center;
+    }
+
+    .tab-list {
+      min-height: 50px;
+      max-height: 300px;
+      overflow-y: auto;
+      margin-bottom: 14px;
+      display: none;
+      scrollbar-width: thin;
+      scrollbar-color: #2a2a3a transparent;
+    }
+
+    .tab-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 5px 8px;
+      border-radius: 4px;
+      font-size: 9px;
+      color: #8888aa;
+      margin-bottom: 2px;
+      background: #16161f;
+      border: 1px solid #1e1e2a;
+    }
+
+    .tab-item.found   { color: #00cc66; border-color: #00cc6622; background: #00cc6608; }
+    .tab-item.missing { color: #555570; border-color: #1e1e2a; }
+    .tab-item.scanning { color: #ffaa00; border-color: #ffaa0022; background: #ffaa0008; }
+
+    .tab-icon { font-size: 10px; flex-shrink: 0; }
+    .tab-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; line-height: 1.5; }
+    .tab-sub { display: block; font-size: 8px; color: #00cc66; opacity: 0.8; white-space: nowrap; }
+
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 10px 12px;
+      border: none;
+      border-radius: 6px;
+      font-family: 'Courier New', monospace;
+      font-size: 10px;
+      font-weight: bold;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+      transform: none !important;
+      box-shadow: none !important;
+    }
+
+    .btn-scan {
+      background: #2a2a3a;
+      color: #aaa;
+      border: 1px solid #3a3a4a;
+    }
+
+    .btn-scan:hover:not(:disabled) {
+      background: #3a3a4a;
+      color: #e8e8f0;
+    }
+
+    .btn-open {
+      background: linear-gradient(135deg, #7b2fff, #bb44ff);
+      color: white;
+    }
+
+    .btn-open:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px #bb44ff33;
+    }
+
+    .btn-icon { font-size: 12px; }
+
+    .divider {
+      border: none;
+      border-top: 1px solid #2a2a3a;
+      margin: 2px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="logo">SF</div>
+    <div>
+      <div class="title">Feed Link Opener</div>
+      <div class="subtitle">SF Feed Links → New Window</div>
+    </div>
+  </div>
+
+  <div class="status-bar">
+    <div class="status-dot" id="statusDot"></div>
+    <span id="statusText">Click Scan to crawl all tabs in this window</span>
+  </div>
+
+  <div class="count-badge" id="countBadge"></div>
+
+  <div class="tab-list" id="tabList"></div>
+
+  <div class="btn-group">
+    <button class="btn btn-scan" id="scanBtn">
+      <span class="btn-icon">⟳</span> Scan All Tabs
+    </button>
+    <hr class="divider">
+    <button class="btn btn-open" id="openBtn" disabled>
+      <span class="btn-icon">↗</span> Open SF Feed Links
+    </button>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "manifest_version": 3,
+  "name": "WP SKU Search Opener",
+  "version": "1.0",
+  "description": "Paste a list of SKUs or product names and open each WP Admin search in a new window",
+  "permissions": ["tabs"],
+  "host_permissions": ["https://moscadesign.com/*"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icon16.png",
+      "48": "icon48.png",
+      "128": "icon128.png"
+    }
+  }
+}

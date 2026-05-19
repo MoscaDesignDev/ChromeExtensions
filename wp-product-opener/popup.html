@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      width: 290px;
+      background: #1a1a1a;
+      color: #e8e8e8;
+      font-family: 'Courier New', monospace;
+      padding: 20px;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid #2e2e2e;
+    }
+
+    .logo {
+      width: 28px;
+      height: 28px;
+      background: linear-gradient(135deg, #21759b, #00aaff);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: bold;
+      color: white;
+      flex-shrink: 0;
+    }
+
+    .title {
+      font-size: 11px;
+      font-weight: bold;
+      color: #00aaff;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .subtitle {
+      font-size: 9px;
+      color: #555;
+      letter-spacing: 0.05em;
+      margin-top: 2px;
+    }
+
+    .status-bar {
+      background: #111;
+      border: 1px solid #2e2e2e;
+      border-radius: 6px;
+      padding: 10px 12px;
+      margin-bottom: 14px;
+      font-size: 10px;
+      color: #888;
+      min-height: 38px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #444;
+      flex-shrink: 0;
+      transition: background 0.3s;
+    }
+
+    .status-dot.ready   { background: #00cc66; box-shadow: 0 0 6px #00cc66; }
+    .status-dot.error   { background: #ff4455; box-shadow: 0 0 6px #ff4455; }
+    .status-dot.none    { background: #ffaa00; box-shadow: 0 0 6px #ffaa00; }
+
+    .count-badge {
+      display: none;
+      background: #00aaff22;
+      border: 1px solid #00aaff44;
+      border-radius: 4px;
+      padding: 6px 10px;
+      font-size: 10px;
+      color: #00aaff;
+      margin-bottom: 14px;
+      text-align: center;
+    }
+
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 10px 12px;
+      border: none;
+      border-radius: 6px;
+      font-family: 'Courier New', monospace;
+      font-size: 10px;
+      font-weight: bold;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+      transform: none !important;
+      box-shadow: none !important;
+    }
+
+    .btn-admin {
+      background: linear-gradient(135deg, #21759b, #00aaff);
+      color: white;
+    }
+
+    .btn-admin:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px #00aaff33;
+    }
+
+    .btn-store {
+      background: linear-gradient(135deg, #46b450, #00cc66);
+      color: white;
+    }
+
+    .btn-store:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px #00cc6633;
+    }
+
+    .btn-scan {
+      background: #2e2e2e;
+      color: #aaa;
+      border: 1px solid #3e3e3e;
+    }
+
+    .btn-scan:hover {
+      background: #3e3e3e;
+      color: #e8e8e8;
+    }
+
+    .btn-icon { font-size: 12px; }
+
+    .divider {
+      border: none;
+      border-top: 1px solid #2e2e2e;
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="logo">WP</div>
+    <div>
+      <div class="title">Product Tab Opener</div>
+      <div class="subtitle">WooCommerce Admin → Tabs</div>
+    </div>
+  </div>
+
+  <div class="status-bar">
+    <div class="status-dot" id="statusDot"></div>
+    <span id="statusText">Click Scan to detect checked products</span>
+  </div>
+
+  <div class="count-badge" id="countBadge"></div>
+
+  <div class="btn-group">
+    <button class="btn btn-scan" id="scanBtn">
+      <span class="btn-icon">⟳</span> Scan for Checked Products
+    </button>
+    <hr class="divider">
+    <button class="btn btn-admin" id="adminBtn" disabled>
+      <span class="btn-icon">✎</span> Open Admin Editing URLs
+    </button>
+    <button class="btn btn-store" id="storeBtn" disabled>
+      <span class="btn-icon">↗</span> Open Store URLs
+    </button>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      width: 290px;
+      background: #1a1a1a;
+      color: #e8e8e8;
+      font-family: 'Courier New', monospace;
+      padding: 20px;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid #2e2e2e;
+    }
+
+    .logo {
+      width: 28px;
+      height: 28px;
+      background: linear-gradient(135deg, #b8420a, #ff6a1a);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: bold;
+      color: white;
+      flex-shrink: 0;
+      letter-spacing: -0.5px;
+    }
+
+    .title {
+      font-size: 11px;
+      font-weight: bold;
+      color: #ff6a1a;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .subtitle {
+      font-size: 9px;
+      color: #555;
+      letter-spacing: 0.05em;
+      margin-top: 2px;
+    }
+
+    .status-bar {
+      background: #111;
+      border: 1px solid #2e2e2e;
+      border-radius: 6px;
+      padding: 10px 12px;
+      margin-bottom: 14px;
+      font-size: 10px;
+      color: #888;
+      min-height: 38px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #444;
+      flex-shrink: 0;
+      transition: background 0.3s;
+    }
+
+    .status-dot.ready  { background: #00cc66; box-shadow: 0 0 6px #00cc66; }
+    .status-dot.error  { background: #ff4455; box-shadow: 0 0 6px #ff4455; }
+    .status-dot.none   { background: #ffaa00; box-shadow: 0 0 6px #ffaa00; }
+    .status-dot.done   { background: #ff6a1a; box-shadow: 0 0 6px #ff6a1a; }
+
+    label {
+      display: block;
+      font-size: 9px;
+      color: #555;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 5px;
+    }
+
+    textarea {
+      width: 100%;
+      height: 130px;
+      background: #111;
+      border: 1px solid #2e2e2e;
+      border-radius: 6px;
+      color: #e8e8e8;
+      font-family: 'Courier New', monospace;
+      font-size: 10px;
+      padding: 8px 10px;
+      resize: none;
+      margin-bottom: 14px;
+      outline: none;
+      line-height: 1.6;
+    }
+
+    textarea:focus {
+      border-color: #ff6a1a44;
+      box-shadow: 0 0 0 2px #ff6a1a11;
+    }
+
+    textarea::placeholder {
+      color: #3a3a3a;
+    }
+
+    .count-badge {
+      display: none;
+      background: #ff6a1a11;
+      border: 1px solid #ff6a1a33;
+      border-radius: 4px;
+      padding: 6px 10px;
+      font-size: 10px;
+      color: #ff6a1a;
+      margin-bottom: 14px;
+      text-align: center;
+    }
+
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 10px 12px;
+      border: none;
+      border-radius: 6px;
+      font-family: 'Courier New', monospace;
+      font-size: 10px;
+      font-weight: bold;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+      transform: none !important;
+      box-shadow: none !important;
+    }
+
+    .btn-parse {
+      background: #2e2e2e;
+      color: #aaa;
+      border: 1px solid #3e3e3e;
+    }
+
+    .btn-parse:hover:not(:disabled) {
+      background: #3e3e3e;
+      color: #e8e8e8;
+    }
+
+    .btn-open {
+      background: linear-gradient(135deg, #b8420a, #ff6a1a);
+      color: white;
+    }
+
+    .btn-open:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px #ff6a1a33;
+    }
+
+    .btn-icon { font-size: 12px; }
+
+    .divider {
+      border: none;
+      border-top: 1px solid #2e2e2e;
+      margin: 2px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="logo">SKU</div>
+    <div>
+      <div class="title">SKU Search Opener</div>
+      <div class="subtitle">WP Admin Product Search → Tabs</div>
+    </div>
+  </div>
+
+  <div class="status-bar">
+    <div class="status-dot" id="statusDot"></div>
+    <span id="statusText">Paste SKUs or names below, one per line</span>
+  </div>
+
+  <label for="skuInput">SKUs / Product Names</label>
+  <textarea id="skuInput" placeholder="RKPD-1019&#10;RKPD-1020&#10;Christmas Wreath&#10;..."></textarea>
+
+  <div class="count-badge" id="countBadge"></div>
+
+  <div class="btn-group">
+    <button class="btn btn-parse" id="parseBtn">
+      <span class="btn-icon">⟳</span> Parse List
+    </button>
+    <hr class="divider">
+    <button class="btn btn-open" id="openBtn" disabled>
+      <span class="btn-icon">↗</span> Open Search Tabs
+    </button>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
